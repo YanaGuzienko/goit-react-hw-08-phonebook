@@ -24,9 +24,19 @@ class Form extends Component {
     });
   };
 
+  formSubmitHandler = (data) => {
+    const newName = this.props.contacts.some((contact) => contact.name.toLowerCase().includes(data.name.toLowerCase()));
+
+    if (newName) {
+      return alert(`${data.name} is already in contacts`);
+    } else {
+      this.props.addContacts(data);
+    }
+  };
+
   handleOnSubmit = (e) => {
     e.preventDefault();
-    this.props.onSubmit(this.state);
+    this.formSubmitHandler(this.state);
     this.reset();
   };
 
@@ -81,6 +91,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchContacts: () => dispatch(operations.fetchContacts()),
+    addContacts: (data) => dispatch(operations.addToContacts(data)),
   };
 };
 

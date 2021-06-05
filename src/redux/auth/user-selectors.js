@@ -1,3 +1,5 @@
-const getToken = (state) => state.user.token;
+const getToken = (state) => state.auth.token;
 
-export default { getToken };
+const getName = (state) => state.auth.user.name;
+
+export default { getToken, getName };

@@ -12,46 +12,40 @@ import AppBar from './Components/AppBar';
 import scss from './Components/Container/Container.module.scss';
 import Registration from './Pages/Registration/';
 import Login from './Pages/Login';
+import ForLoginUser from './Components/ForLoginUser';
 
-const App = ({ addContacts, contacts }) => {
-  const formSubmitHandler = (data) => {
-    const newName = contacts.some((contact) => contact.name.toLowerCase().includes(data.name.toLowerCase()));
-
-    if (newName) {
-      return alert(`${data.name} is already in contacts`);
-    } else {
-      addContacts(data);
-    }
-  };
-
+const App = ({ userLogin }) => {
   return (
     <BrowserRouter>
       <Container>
-        <AppBar />
-
-        <Switch>
-          <Route exact path='/registration' component={Registration} />
-          <Route exact path='/login' component={Login} />
-        </Switch>
-
-        <h1 className={scss.title}>Phonebook</h1>
-        <Form onSubmit={formSubmitHandler} />
-        <h2 className={scss.title}>Contacts</h2>
-        <Filter />
-        <ContactsList />
+        {userLogin ? (
+          <>
+            <ForLoginUser />
+            <h1 className={scss.title}>Phonebook</h1>
+            <Form />
+            <h2 className={scss.title}>Contacts</h2>
+            <Filter />
+            <ContactsList />
+          </>
+        ) : (
+          <>
+            <AppBar />
+            <Switch>
+              <Route exact path='/registration' component={Registration} />
+              <Route exact path='/login' component={Login} />
+            </Switch>
+          </>
+        )}
       </Container>
     </BrowserRouter>
   );
 };
 
 const mapStateToProps = (state) => {
-  return { contacts: contactsSelector.getContacts(state) };
-};
-
-const mapDispatchToProps = (dispath) => {
   return {
-    addContacts: (data) => dispath(operations.addToContacts(data)),
+    contacts: contactsSelector.getContacts(state),
+    userLogin: userSelector.getToken(state),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

@@ -15,10 +15,10 @@ const fetchContacts = () => async (dispatch) => {
   dispatch(fetchContactsRequest());
 
   try {
-    const { data } = await axios.get(`http://localhost:3001/contacts/`);
+    const { data } = await axios.get(`https://connections-api.herokuapp.com/contacts`);
     dispatch(fetchContactsSuccess(data));
   } catch (error) {
-    dispatch(fetchContactsError(error));
+    dispatch(fetchContactsError(error.message));
   }
 };
 
@@ -30,22 +30,22 @@ const addToContacts = ({ name, number }) => async (dispatch) => {
   dispatch(addToContactsRequest());
 
   try {
-    const { data } = await axios.post('http://localhost:3001/contacts', contact);
+    const { data } = await axios.post('https://connections-api.herokuapp.com/contacts', contact);
 
     dispatch(addToContactsSuccess(data));
   } catch (error) {
-    dispatch(addToContactsError(error));
+    dispatch(addToContactsError(error.message));
   }
 };
 
 const deleteContact = (contactId) => async (dispatch) => {
   dispatch(deleteContactRequest());
   try {
-    await axios.delete(`http://localhost:3001/contacts/${contactId}`);
+    await axios.delete(`https://connections-api.herokuapp.com/contacts/${contactId}`);
 
     dispatch(deleteContactSuccess(contactId));
   } catch (error) {
-    dispatch(deleteContactError(error));
+    dispatch(deleteContactError(error.message));
   }
 };
 

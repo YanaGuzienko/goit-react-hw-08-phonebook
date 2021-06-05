@@ -6,7 +6,7 @@ const Navigation = () => {
   return (
     <nav>
       <ul>
-        <NavLink exact to='/registration'>
+        <NavLink exact to={{ pathname: '/registration' }}>
           <li>Registration</li>
         </NavLink>
         <NavLink exact to={{ pathname: '/login' }}>
