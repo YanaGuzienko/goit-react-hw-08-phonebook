@@ -2,16 +2,6 @@ import scss from './ContactsList.module.scss';
 import { connect } from 'react-redux';
 import { operations, contactsSelector } from '../../redux/form-contacts';
 
-const a = (n) => {
-  let res = n;
-  return function f(test) {
-    if (!test) return res;
-    res = test + res;
-    return f;
-  };
-};
-
-console.log(a(5)(5)(7)());
 function ContactsList({ contacts, deleteContact }) {
   return (
     <>

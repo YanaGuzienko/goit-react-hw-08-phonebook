@@ -15,7 +15,7 @@ import {
   getCurrentUserError,
 } from './user-action';
 
-const token = {
+export const token = {
   set(token) {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   },
@@ -40,7 +40,6 @@ const login = (userData) => async (dispatch) => {
   dispatch(loginRequest());
   try {
     const response = await axios.post('https://connections-api.herokuapp.com/users/login', userData);
-    console.log(response.data.token);
     token.set(response.data.token);
     dispatch(loginSuccess(response.data));
   } catch (error) {
@@ -68,18 +67,17 @@ const getCurrentUser = () => async (dispatch, getState) => {
   if (!persistedToken) {
     return;
   }
-
   token.set(persistedToken);
 
   dispatch(getCurrentUserRequest());
 
   try {
-    await axios.get('https://connections-api.herokuapp.com/users/current');
+    const response = await axios.get('https://connections-api.herokuapp.com/users/current');
 
-    dispatch(getCurrentUserSuccess());
+    dispatch(getCurrentUserSuccess(response.data));
   } catch (error) {
     dispatch(getCurrentUserError(error.message));
   }
 };
 
-export default { register, login, logOut };
+export default { register, login, logOut, getCurrentUser };

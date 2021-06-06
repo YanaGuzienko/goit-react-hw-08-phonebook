@@ -1,51 +1,65 @@
+import { Component } from 'react';
 import { connect } from 'react-redux';
-import { operations, contactsSelector } from './redux/form-contacts';
+import { contactsSelector } from './redux/form-contacts';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
-import { userSelector } from './redux/auth';
+import { userSelector, authOperations } from './redux/auth';
 
 import Container from './Components/Container';
-import Form from './Components/Form';
-import ContactsList from './Components/ContactsList';
-import Filter from './Components/Filter';
 import AppBar from './Components/AppBar';
-import scss from './Components/Container/Container.module.scss';
+// import scss from './Components/Container/Container.module.scss';
 import Registration from './Pages/Registration/';
 import Login from './Pages/Login';
-import ForLoginUser from './Components/ForLoginUser';
+// import ContactsBook from './Components/ContactsBook';
+import ForLoginUser from '../src/Components/ForLoginUser';
+import PrivateRoute from '../src/Routes/PrivateRoutes.jsx';
 
-const App = ({ userLogin }) => {
-  return (
-    <BrowserRouter>
-      <Container>
-        {userLogin ? (
-          <>
-            <ForLoginUser />
-            <h1 className={scss.title}>Phonebook</h1>
-            <Form />
-            <h2 className={scss.title}>Contacts</h2>
-            <Filter />
-            <ContactsList />
-          </>
-        ) : (
-          <>
-            <AppBar />
+class App extends Component {
+  componentDidMount() {
+    this.props.onGetCurrentUser();
+  }
+
+  render() {
+    console.log(this.props.onGetCurrentUser());
+    return (
+      <BrowserRouter>
+        <Container>
+          {/* <AppBar />
+          {this.props.isAuthenticated ? (
+            <ContactsBook />
+          ) : (
             <Switch>
               <Route exact path='/registration' component={Registration} />
               <Route exact path='/login' component={Login} />
+
+              <PrivateRoute path='/contactsbook' component={ContactsBook} />
             </Switch>
-          </>
-        )}
-      </Container>
-    </BrowserRouter>
-  );
-};
+          )} */}
+          <AppBar />
+          <Switch>
+            <Route exact path='/registration' component={Registration} />
+            <Route exact path='/login' component={Login} />
+            {/* <Route exact path='/contactsbook' component={ContactsBook} /> */}
+
+            <PrivateRoute path='/contactsbook' component={ForLoginUser} />
+          </Switch>
+        </Container>
+      </BrowserRouter>
+    );
+  }
+}
 
 const mapStateToProps = (state) => {
   return {
     contacts: contactsSelector.getContacts(state),
-    userLogin: userSelector.getToken(state),
+    isAuthenticated: userSelector.getToken(state),
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onGetCurrentUser: () => dispatch(authOperations.getCurrentUser()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
