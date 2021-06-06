@@ -1,18 +1,19 @@
-import { Component } from 'react';
+import { Component, Suspense, lazy } from 'react';
 import { connect } from 'react-redux';
 import { contactsSelector } from './redux/form-contacts';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 import { userSelector, authOperations } from './redux/auth';
+import PrivateRoute from '../src/Routes/PrivateRoutes.jsx';
+import PublicRoute from '../src/Routes/PubliсRoutes';
 
 import Container from './Components/Container';
-import AppBar from './Components/AppBar';
-// import scss from './Components/Container/Container.module.scss';
-import Registration from './Pages/Registration/';
-import Login from './Pages/Login';
-// import ContactsBook from './Components/ContactsBook';
-import ForLoginUser from '../src/Components/ForLoginUser';
-import PrivateRoute from '../src/Routes/PrivateRoutes.jsx';
+
+const AppBar = lazy(() => import('./Components/AppBar' /* webpackChunkName: "appBar" */));
+const Registration = lazy(() => import('./Pages/Registration/' /* webpackChunkName: "registration" */));
+const Login = lazy(() => import('./Pages/Login' /* webpackChunkName: "login" */));
+const ContactsBook = lazy(() => import('./Components/ContactsBook' /* webpackChunkName: "contacts-book" */));
+const HomePage = lazy(() => import('./Pages/HomePage' /* webpackChunkName: "home-page" */));
 
 class App extends Component {
   componentDidMount() {
@@ -20,29 +21,18 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props.onGetCurrentUser());
     return (
       <BrowserRouter>
         <Container>
-          {/* <AppBar />
-          {this.props.isAuthenticated ? (
-            <ContactsBook />
-          ) : (
+          <Suspense fallback={<p>Загружаем</p>}>
+            <AppBar />
             <Switch>
-              <Route exact path='/registration' component={Registration} />
-              <Route exact path='/login' component={Login} />
-
+              <Route exact path='/' component={HomePage} />
+              <PublicRoute exact path='/registration' restricted redirectTo='/' component={Registration} />
+              <PublicRoute exact path='/login' restricted redirectTo='/' component={Login} />
               <PrivateRoute path='/contactsbook' component={ContactsBook} />
             </Switch>
-          )} */}
-          <AppBar />
-          <Switch>
-            <Route exact path='/registration' component={Registration} />
-            <Route exact path='/login' component={Login} />
-            {/* <Route exact path='/contactsbook' component={ContactsBook} /> */}
-
-            <PrivateRoute path='/contactsbook' component={ForLoginUser} />
-          </Switch>
+          </Suspense>
         </Container>
       </BrowserRouter>
     );
