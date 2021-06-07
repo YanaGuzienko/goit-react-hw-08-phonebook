@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {
   registerRequest,
   registerSuccess,
@@ -32,6 +35,8 @@ const register = (userData) => async (dispatch) => {
     token.set(response.data.token);
     dispatch(registerSuccess(response.data));
   } catch (error) {
+    toast.error('Проверьте введенные данные');
+
     dispatch(registerError(error));
   }
 };
@@ -43,6 +48,7 @@ const login = (userData) => async (dispatch) => {
     token.set(response.data.token);
     dispatch(loginSuccess(response.data));
   } catch (error) {
+    toast.error('Такого пользователя не существует');
     dispatch(loginError(error.message));
   }
 };
@@ -55,6 +61,8 @@ const logOut = () => async (dispatch) => {
     token.unSet();
     dispatch(logoutSuccess());
   } catch (error) {
+    toast.error('Что-то пошло не так');
+
     dispatch(logoutError(error.message));
   }
 };
@@ -76,8 +84,10 @@ const getCurrentUser = () => async (dispatch, getState) => {
 
     dispatch(getCurrentUserSuccess(response.data));
   } catch (error) {
+    toast.error('Что-то пошло не так');
+
     dispatch(getCurrentUserError(error.message));
   }
 };
-
+// eslint-disable-next-line import/no-anonymous-default-export
 export default { register, login, logOut, getCurrentUser };

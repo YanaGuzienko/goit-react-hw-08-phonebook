@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { userSelector } from '../redux/auth';
 import { Route, Redirect } from 'react-router-dom';
-import { Component } from 'react';
 
 const PublicRoute = ({ component: Component, isAuthenticated, redirectTo, ...routeProps }) => (
   <Route

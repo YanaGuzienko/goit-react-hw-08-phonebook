@@ -1,6 +1,9 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { authOperations } from '../../redux/auth';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -61,6 +64,7 @@ class Login extends Component {
             </Button>
           </div>
         </Form>
+        <ToastContainer />
       </>
     );
   }
