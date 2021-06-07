@@ -1,30 +1,28 @@
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { userSelector } from '../../redux/auth';
+import { userSelector, authOperations } from '../../redux/auth';
 
-import scss from './Navigation.scss';
+import scss from './Navigation.module.scss';
 
-const Navigation = ({ isAuthenticated }) => {
+const Navigation = ({ isAuthenticated, logOut }) => {
   return (
-    <nav>
-      <ul>
-        <NavLink exact to={{ pathname: '/' }}>
-          <li>Главная</li>
+    <nav className={scss.navigation}>
+      <ul className={scss.list}>
+        <NavLink className={scss.link} exact to={{ pathname: '/' }} activeClassName={scss.active}>
+          <li className={scss.item}>Главная</li>
         </NavLink>
         {isAuthenticated && (
-          <NavLink exact to={{ pathname: '/contactsbook' }}>
-            <li>Контакты</li>
+          <NavLink className={scss.link} exact to={{ pathname: '/contactsbook' }} activeClassName={scss.active}>
+            <li className={scss.item}>Контакты</li>
           </NavLink>
         )}
-
-        {/* <NavLink exact to={{ pathname: '/registration' }}>
-          <li>Registration</li>
-        </NavLink>
-        <NavLink exact to={{ pathname: '/login' }}>
-          <li>Login</li>
-        </NavLink> */}
       </ul>
+      {isAuthenticated && (
+        <button type='button' className={scss.button} onClick={logOut}>
+          Выйти
+        </button>
+      )}
     </nav>
   );
 };
@@ -35,4 +33,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Navigation);
+const mapDispatchToProps = (dispatch) => ({
+  logOut: () => dispatch(authOperations.logOut()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

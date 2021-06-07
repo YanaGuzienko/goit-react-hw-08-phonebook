@@ -35,9 +35,10 @@ class Registration extends Component {
       <>
         <Form onSubmit={this.handleOnSubmit}>
           <div className={scss.form}>
-            <Form.Group className={scss.lable} controlId='validationCustom01'>
-              <Form.Label>First name</Form.Label>
+            <Form.Group className={scss.group} controlId='validationCustom01'>
+              <Form.Label className={scss.lable}>First name</Form.Label>
               <Form.Control
+                className={scss.input}
                 type='text'
                 placeholder='First name'
                 name='name'
@@ -45,9 +46,10 @@ class Registration extends Component {
                 onChange={this.handleOnChange}
               />
             </Form.Group>
-            <Form.Group className={scss.lable} controlId='formBasicEmail'>
-              <Form.Label>Email address</Form.Label>
+            <Form.Group className={scss.group} controlId='formBasicEmail'>
+              <Form.Label className={scss.lable}>Email address</Form.Label>
               <Form.Control
+                className={scss.input}
                 type='email'
                 placeholder='Enter email'
                 name='email'
@@ -57,9 +59,10 @@ class Registration extends Component {
               <Form.Text className='text-muted'>We'll never share your email with anyone else.</Form.Text>
             </Form.Group>
 
-            <Form.Group className={scss.lable} controlId='formBasicPassword'>
-              <Form.Label>Password</Form.Label>
+            <Form.Group className={scss.group} controlId='formBasicPassword'>
+              <Form.Label className={scss.lable}>Password</Form.Label>
               <Form.Control
+                className={scss.input}
                 type='password'
                 placeholder='Password'
                 name='password'
@@ -67,11 +70,7 @@ class Registration extends Component {
                 onChange={this.handleOnChange}
               />
             </Form.Group>
-
-            {/* <Form.Group className={scss.lable} controlId='formBasicCheckbox'>
-              <Form.Check type='checkbox' label='Check me out' />
-            </Form.Group> */}
-            <Button variant='primary' type='submit'>
+            <Button className={scss.button} variant='primary' type='submit'>
               Submit
             </Button>
           </div>

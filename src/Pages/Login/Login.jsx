@@ -34,20 +34,29 @@ class Login extends Component {
       <>
         <Form onSubmit={this.handleOnSubmit}>
           <div className={scss.form}>
-            <Form.Group className={scss.lable} controlId='formBasicEmail'>
-              <Form.Label>Email address</Form.Label>
-              <Form.Control type='email' placeholder='Enter email' value={email} onChange={this.handleOnChange} />
+            <Form.Group className={scss.group} controlId='formBasicEmail'>
+              <Form.Label className={scss.lable}>Email address</Form.Label>
+              <Form.Control
+                className={scss.input}
+                type='email'
+                placeholder='Enter email'
+                value={email}
+                onChange={this.handleOnChange}
+              />
               <Form.Text className='text-muted'>We'll never share your email with anyone else.</Form.Text>
             </Form.Group>
 
-            <Form.Group className={scss.lable} controlId='formBasicPassword'>
-              <Form.Label>Password</Form.Label>
-              <Form.Control type='password' placeholder='Password' value={password} onChange={this.handleOnChange} />
+            <Form.Group className={scss.group} controlId='formBasicPassword'>
+              <Form.Label className={scss.lable}>Password</Form.Label>
+              <Form.Control
+                className={scss.input}
+                type='password'
+                placeholder='Password'
+                value={password}
+                onChange={this.handleOnChange}
+              />
             </Form.Group>
-            {/* <Form.Group className={scss.lable} controlId='formBasicCheckbox'>
-            <Form.Check type='checkbox' label='Check me out' />
-          </Form.Group> */}
-            <Button variant='primary' type='submit'>
+            <Button className={scss.button} variant='primary' type='submit'>
               Submit
             </Button>
           </div>

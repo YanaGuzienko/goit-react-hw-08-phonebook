@@ -42,6 +42,7 @@ const isAuthenticated = createReducer(false, {
   [registerError]: () => false,
   [loginError]: () => false,
   [getCurrentUserError]: () => false,
+  [logoutSuccess]: () => false,
 });
 
 export default combineReducers({
